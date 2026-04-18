@@ -191,3 +191,34 @@ def plot_boxplot(sensor_a, sensor_b, ax):
     ax.set_title('Temperature Distribution Comparison: Box Plot')
     ax.legend()
     ax.grid(alpha=0.25, axis='y')
+
+# Create main() that generates data, creates a 1x3 subplot figure,
+# calls each plot function, adjusts layout, and saves as sensor_analysis.png
+# at 150 DPI with tight bounding box.
+
+def main():
+    """Generate sensor data plots and save them to an image file.
+
+    Generates synthetic sensor data using the notebook parameters, creates a
+    1x3 subplot figure containing the scatter plot, histogram, and box plot,
+    and saves the result to ``sensor_analysis.png``.
+
+    Returns
+    -------
+    None
+        The function performs plotting and file output only.
+    """
+    seed = 7889
+    sensor_a, sensor_b, timestamps = generate_data(seed)
+
+    fig, axes = plt.subplots(1, 3, figsize=(18, 5))
+    plot_scatter(sensor_a, sensor_b, timestamps, axes[0])
+    plot_histogram(sensor_a, sensor_b, axes[1])
+    plot_boxplot(sensor_a, sensor_b, axes[2])
+
+    fig.tight_layout()
+    fig.savefig('sensor_analysis.png', dpi=150, bbox_inches='tight')
+
+
+if __name__ == '__main__':
+    main()
