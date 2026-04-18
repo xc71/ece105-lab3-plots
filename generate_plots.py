@@ -176,7 +176,7 @@ def plot_boxplot(sensor_a, sensor_b, ax):
 
     ax.boxplot(
         [sensor_a, sensor_b],
-        labels=['Sensor A', 'Sensor B'],
+        tick_labels=['Sensor A', 'Sensor B'],
         patch_artist=True,
         boxprops=dict(facecolor='lightblue', alpha=0.7),
         medianprops=dict(color='red', linewidth=2),
