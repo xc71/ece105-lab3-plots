@@ -200,8 +200,8 @@ def main():
     """Generate sensor data plots and save them to an image file.
 
     Generates synthetic sensor data using the notebook parameters, creates a
-    1x3 subplot figure containing the scatter plot, histogram, and box plot,
-    and saves the result to ``sensor_analysis.png``.
+    2x2 subplot figure containing the scatter plot, histogram, box plot, and
+    a summary statistics panel, and saves the result to ``sensor_analysis.png``.
 
     Returns
     -------
@@ -211,12 +211,27 @@ def main():
     seed = 7889
     sensor_a, sensor_b, timestamps = generate_data(seed)
 
-    fig, axes = plt.subplots(1, 3, figsize=(18, 5))
-    plot_scatter(sensor_a, sensor_b, timestamps, axes[0])
-    plot_histogram(sensor_a, sensor_b, axes[1])
-    plot_boxplot(sensor_a, sensor_b, axes[2])
+    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+    plot_scatter(sensor_a, sensor_b, timestamps, axes[0, 0])
+    plot_histogram(sensor_a, sensor_b, axes[0, 1])
+    plot_boxplot(sensor_a, sensor_b, axes[1, 0])
+
+    summary_ax = axes[1, 1]
+    summary_ax.axis('off')
+    summary_text = (
+        'Summary Statistics\n\n'
+        f'Sensor A mean: {np.mean(sensor_a):.2f}°C\n'
+        f'Sensor A std:  {np.std(sensor_a):.2f}°C\n'
+        f'Sensor B mean: {np.mean(sensor_b):.2f}°C\n'
+        f'Sensor B std:  {np.std(sensor_b):.2f}°C\n'
+        f'Time range:    {timestamps.min():.2f} to {timestamps.max():.2f} s'
+    )
+    summary_ax.text(0.05, 0.95, summary_text, va='top', ha='left', fontsize=12, family='monospace')
+
+    fig.suptitle('Synthetic Sensor Data Analysis', fontsize=16)
 
     fig.tight_layout()
+    fig.subplots_adjust(top=0.92)
     fig.savefig('sensor_analysis.png', dpi=150, bbox_inches='tight')
 
 
